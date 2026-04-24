@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "168140764689",
+    "project_id": "campuscare-74528",
+    "storage_bucket": "campuscare-74528.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168140764689:android:12afda4df1f992f878e3b0",
+        "android_client_info": {
+          "package_name": "com.example.mini_project_a1_g4"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASspE-kHDm4eOyl8n5T06tYxywvSa7zbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
