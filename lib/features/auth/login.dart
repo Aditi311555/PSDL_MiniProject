@@ -5,7 +5,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 import '../dashboard/dashboard_page.dart';
-import 'signup_page.dart'; // Ensure this matches your filename
+import 'signup_page.dart';
+import '../admin/admin_login_page.dart'; // ✅ ADDED
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,8 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _identifierController =
-      TextEditingController(); // Can be UCENO or Email
+  final _identifierController = TextEditingController();
   final _passwordController = TextEditingController();
 
   bool _isLoading = false;
@@ -36,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
+    print("DEBUG: _login() called");
     final identifier = _identifierController.text.trim();
     final password = _passwordController.text.trim();
 
@@ -47,17 +48,14 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = true);
 
     try {
-      // Query both 'email' and 'uceno' fields to allow flexible login
       QuerySnapshot result;
 
       if (identifier.contains('@')) {
-        // Search by Email
         result = await _firestore
             .collection('users')
             .where('email', isEqualTo: identifier.toLowerCase())
             .get();
       } else {
-        // Search by UCENO
         result = await _firestore
             .collection('users')
             .where('uceno', isEqualTo: identifier)
@@ -75,7 +73,6 @@ class _LoginPageState extends State<LoginPage> {
 
       if (storedHash == hashPassword(password)) {
         showSnack("Welcome back, ${userData['name']}!");
-        TODO:
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -115,7 +112,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image (Matches Signup)
           Container(
             height: double.infinity,
             width: double.infinity,
@@ -128,7 +124,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          // Dark Overlay
           Container(color: Colors.black.withOpacity(0.5)),
 
           Center(
@@ -149,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 30),
 
-                  // Glassmorphism Login Card
                   Card(
                     color: Colors.white.withOpacity(0.85),
                     elevation: 15,
@@ -184,18 +178,17 @@ class _LoginPageState extends State<LoginPage> {
                             obscureText: _obscurePassword,
                             decoration: _inputStyle("Password", Icons.lock)
                                 .copyWith(
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscurePassword
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                    onPressed: () => setState(
-                                      () =>
-                                          _obscurePassword = !_obscurePassword,
-                                    ),
-                                  ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                 ),
+                                onPressed: () => setState(
+                                  () => _obscurePassword = !_obscurePassword,
+                                ),
+                              ),
+                            ),
                           ),
                           SizedBox(height: 25),
 
@@ -247,6 +240,37 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ],
+                          ),
+
+                          // ✅ ADDED ADMIN LOGIN SECTION
+                          SizedBox(height: 15),
+                          Divider(color: Colors.grey.shade300),
+                          SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AdminLoginPage(),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.admin_panel_settings,
+                                  size: 16,
+                                  color: Colors.grey.shade600,
+                                ),
+                                SizedBox(width: 6),
+                                Text(
+                                  "Login as Admin",
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
