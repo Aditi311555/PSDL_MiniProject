@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'admin_dashboard_page.dart';
 
 class AdminLoginPage extends StatefulWidget {
+  const AdminLoginPage({super.key});
+
   @override
   _AdminLoginPageState createState() => _AdminLoginPageState();
 }

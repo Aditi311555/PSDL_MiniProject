@@ -7,7 +7,7 @@ class IssuesPage extends StatelessWidget {
   final Map<String, dynamic> currentUser;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  IssuesPage({required this.currentUser});
+  IssuesPage({super.key, required this.currentUser});
 
   Future<void> toggleUpvote(
       String issueId,
@@ -51,14 +51,17 @@ class IssuesPage extends StatelessWidget {
             .orderBy('upvotes', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return Center(child: Text("Error loading issues"));
-          if (!snapshot.hasData)
+          }
+          if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
+          }
 
           final issues = snapshot.data!.docs;
-          if (issues.isEmpty)
+          if (issues.isEmpty) {
             return Center(child: Text("No issues reported yet."));
+          }
 
           return ListView.builder(
             padding: EdgeInsets.all(12),
@@ -228,7 +231,7 @@ class _PhotoStrip extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: imageUrls.length,
-        separatorBuilder: (_, __) => SizedBox(width: 8),
+        separatorBuilder: (_, _) => SizedBox(width: 8),
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () => _openFullscreen(context, index),
@@ -247,7 +250,7 @@ class _PhotoStrip extends StatelessWidget {
                   color: Colors.grey.shade200,
                   child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
                 ),
-                errorBuilder: (_, __, ___) => Container(
+                errorBuilder: (_, _, _) => Container(
                   width: 90,
                   height: 90,
                   color: Colors.grey.shade200,

@@ -5,6 +5,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -192,7 +194,7 @@ class _SignupPageState extends State<SignupPage> {
                                     "Year",
                                     Icons.calendar_today,
                                   ),
-                                  value: _selectedYear,
+                                  initialValue: _selectedYear,
                                   items: _years
                                       .map(
                                         (y) => DropdownMenuItem(
@@ -212,7 +214,7 @@ class _SignupPageState extends State<SignupPage> {
                                     "Branch",
                                     Icons.account_tree,
                                   ),
-                                  value: _selectedBranch,
+                                  initialValue: _selectedBranch,
                                   items: _branches
                                       .map(
                                         (b) => DropdownMenuItem(

@@ -8,7 +8,7 @@ import '../lost_found/lost_found_page.dart';
 class DashboardPage extends StatefulWidget {
   final Map<String, dynamic> currentUser;
 
-  DashboardPage({required this.currentUser});
+  const DashboardPage({super.key, required this.currentUser});
 
   @override
   _DashboardPageState createState() => _DashboardPageState();

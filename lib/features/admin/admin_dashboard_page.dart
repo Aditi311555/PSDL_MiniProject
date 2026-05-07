@@ -6,7 +6,7 @@ import 'admin_lost_found_page.dart';
 class AdminDashboardPage extends StatefulWidget {
   final Map<String, dynamic> adminData;
 
-  AdminDashboardPage({required this.adminData});
+  const AdminDashboardPage({super.key, required this.adminData});
 
   @override
   _AdminDashboardPageState createState() => _AdminDashboardPageState();
