@@ -9,7 +9,7 @@ import '../../services/cloudinary_service.dart';
 class AddItemPage extends StatefulWidget {
   final Map<String, dynamic> currentUser;
 
-  AddItemPage({required this.currentUser});
+  const AddItemPage({super.key, required this.currentUser});
 
   @override
   _AddItemPageState createState() => _AddItemPageState();
@@ -167,7 +167,7 @@ class _AddItemPageState extends State<AddItemPage> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: _selectedImages.length,
-              separatorBuilder: (_, __) => SizedBox(width: 10),
+              separatorBuilder: (_, _) => SizedBox(width: 10),
               itemBuilder: (context, index) {
                 return Stack(
                   children: [

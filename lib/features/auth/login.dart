@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 
 import '../dashboard/dashboard_page.dart';
 import 'signup_page.dart';
-import '../admin/admin_login_page.dart'; // ✅ ADDED
+import '../admin/admin_login_page.dart';
+import 'forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -37,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _login() async {
     print("DEBUG: _login() called");
+
     final identifier = _identifierController.text.trim();
     final password = _passwordController.text.trim();
 
@@ -73,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (storedHash == hashPassword(password)) {
         showSnack("Welcome back, ${userData['name']}!");
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -112,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
+          // Background
           Container(
             height: double.infinity,
             width: double.infinity,
@@ -124,15 +130,20 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+
           Container(color: Colors.black.withOpacity(0.5)),
 
+          // Main Content
           Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 25),
+
               child: Column(
                 children: [
                   Icon(Icons.school_outlined, size: 80, color: Colors.white),
+
                   SizedBox(height: 10),
+
                   Text(
                     "Campus Connect",
                     style: TextStyle(
@@ -142,16 +153,20 @@ class _LoginPageState extends State<LoginPage> {
                       letterSpacing: 1.2,
                     ),
                   ),
+
                   SizedBox(height: 30),
 
                   Card(
                     color: Colors.white.withOpacity(0.85),
                     elevation: 15,
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
+
                     child: Padding(
                       padding: EdgeInsets.all(25),
+
                       child: Column(
                         children: [
                           Text(
@@ -162,8 +177,10 @@ class _LoginPageState extends State<LoginPage> {
                               color: Color(0xFF3a317c),
                             ),
                           ),
+
                           SizedBox(height: 25),
 
+                          // UCENO / EMAIL
                           TextField(
                             controller: _identifierController,
                             decoration: _inputStyle(
@@ -171,40 +188,80 @@ class _LoginPageState extends State<LoginPage> {
                               Icons.person,
                             ),
                           ),
+
                           SizedBox(height: 15),
 
+                          // PASSWORD
                           TextField(
                             controller: _passwordController,
                             obscureText: _obscurePassword,
+
                             decoration: _inputStyle("Password", Icons.lock)
                                 .copyWith(
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _obscurePassword
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+
+                                    onPressed: () {
+                                      setState(() {
+                                        _obscurePassword = !_obscurePassword;
+                                      });
+                                    },
+                                  ),
                                 ),
-                                onPressed: () => setState(
-                                  () => _obscurePassword = !_obscurePassword,
+                          ),
+
+                          SizedBox(height: 10),
+
+                          // FORGOT PASSWORD
+                          Align(
+                            alignment: Alignment.centerRight,
+
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const ForgotPasswordPage(),
+                                  ),
+                                );
+                              },
+
+                              child: Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                  color: Color(0xFF3a317c),
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 25),
 
+                          SizedBox(height: 10),
+
+                          // LOGIN BUTTON
                           SizedBox(
                             width: double.infinity,
                             height: 55,
+
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _login,
+
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFF3a317c),
+
                                 foregroundColor: Colors.white,
+
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
+
                                 elevation: 5,
                               ),
+
                               child: _isLoading
                                   ? CircularProgressIndicator(
                                       color: Colors.white,
@@ -218,21 +275,29 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                             ),
                           ),
+
                           SizedBox(height: 20),
 
+                          // SIGNUP
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+
                             children: [
                               Text("Don't have an account? "),
+
                               GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => SignupPage(),
-                                  ),
-                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => SignupPage(),
+                                    ),
+                                  );
+                                },
+
                                 child: Text(
                                   "Sign Up",
+
                                   style: TextStyle(
                                     color: Color(0xFF3a317c),
                                     fontWeight: FontWeight.bold,
@@ -242,28 +307,38 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
 
-                          // ✅ ADDED ADMIN LOGIN SECTION
                           SizedBox(height: 15),
+
                           Divider(color: Colors.grey.shade300),
+
                           SizedBox(height: 10),
+
+                          // ADMIN LOGIN
                           GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => AdminLoginPage(),
-                              ),
-                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => AdminLoginPage(),
+                                ),
+                              );
+                            },
+
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+
                               children: [
                                 Icon(
                                   Icons.admin_panel_settings,
                                   size: 16,
                                   color: Colors.grey.shade600,
                                 ),
+
                                 SizedBox(width: 6),
+
                                 Text(
                                   "Login as Admin",
+
                                   style: TextStyle(
                                     color: Colors.grey.shade600,
                                     fontSize: 13,

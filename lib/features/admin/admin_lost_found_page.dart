@@ -5,7 +5,7 @@ class AdminLostFoundPage extends StatelessWidget {
   final Map<String, dynamic> adminData;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  AdminLostFoundPage({required this.adminData});
+  AdminLostFoundPage({super.key, required this.adminData});
 
   Color _getStatusColor(String status) {
     switch (status) {
@@ -100,8 +100,9 @@ class AdminLostFoundPage extends StatelessWidget {
                         )
                         .toList(),
                     onChanged: (val) {
-                      if (val != null)
+                      if (val != null) {
                         setDialogState(() => selectedStatus = val);
+                      }
                     },
                   ),
                 ),
@@ -169,13 +170,15 @@ class AdminLostFoundPage extends StatelessWidget {
           .orderBy('timestamp', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.hasError)
+        if (snapshot.hasError) {
           return Center(child: Text("Error loading items"));
-        if (!snapshot.hasData)
+        }
+        if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
+        }
 
         final items = snapshot.data!.docs;
-        if (items.isEmpty)
+        if (items.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -189,6 +192,7 @@ class AdminLostFoundPage extends StatelessWidget {
               ],
             ),
           );
+        }
 
         return ListView.builder(
           padding: EdgeInsets.all(12),
@@ -300,7 +304,7 @@ class AdminLostFoundPage extends StatelessWidget {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: imageUrls.length,
-                          separatorBuilder: (_, __) => SizedBox(width: 8),
+                          separatorBuilder: (_, _) => SizedBox(width: 8),
                           itemBuilder: (_, i) => ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.network(

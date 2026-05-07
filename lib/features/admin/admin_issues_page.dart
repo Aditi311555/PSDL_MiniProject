@@ -5,7 +5,7 @@ class AdminIssuesPage extends StatelessWidget {
   final Map<String, dynamic> adminData;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  AdminIssuesPage({required this.adminData});
+  AdminIssuesPage({super.key, required this.adminData});
 
   Color _getStatusColor(String status) {
     switch (status) {
@@ -101,8 +101,9 @@ class AdminIssuesPage extends StatelessWidget {
                         )
                         .toList(),
                     onChanged: (val) {
-                      if (val != null)
+                      if (val != null) {
                         setDialogState(() => selectedStatus = val);
+                      }
                     },
                   ),
                 ),
@@ -171,13 +172,15 @@ class AdminIssuesPage extends StatelessWidget {
           .orderBy('upvotes', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.hasError)
+        if (snapshot.hasError) {
           return Center(child: Text("Error loading issues"));
-        if (!snapshot.hasData)
+        }
+        if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
+        }
 
         final issues = snapshot.data!.docs;
-        if (issues.isEmpty)
+        if (issues.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -191,6 +194,7 @@ class AdminIssuesPage extends StatelessWidget {
               ],
             ),
           );
+        }
 
         return ListView.builder(
           padding: EdgeInsets.all(12),
@@ -276,7 +280,7 @@ class AdminIssuesPage extends StatelessWidget {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: imageUrls.length,
-                          separatorBuilder: (_, __) => SizedBox(width: 8),
+                          separatorBuilder: (_, _) => SizedBox(width: 8),
                           itemBuilder: (context, i) => ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.network(

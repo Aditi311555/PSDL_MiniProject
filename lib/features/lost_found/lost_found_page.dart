@@ -7,7 +7,7 @@ class LostFoundPage extends StatelessWidget {
   final Map<String, dynamic> currentUser;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  LostFoundPage({required this.currentUser});
+  LostFoundPage({super.key, required this.currentUser});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +18,17 @@ class LostFoundPage extends StatelessWidget {
             .orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return Center(child: Text("Error loading items"));
-          if (!snapshot.hasData)
+          }
+          if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
+          }
 
           final items = snapshot.data!.docs;
-          if (items.isEmpty)
+          if (items.isEmpty) {
             return Center(child: Text("No items reported yet."));
+          }
 
           return ListView.builder(
             padding: EdgeInsets.all(12),
@@ -80,7 +83,7 @@ class LostFoundPage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                errorBuilder: (_, __, ___) => Container(
+                                errorBuilder: (_, _, _) => Container(
                                   width: 72,
                                   height: 72,
                                   color: Colors.grey.shade200,

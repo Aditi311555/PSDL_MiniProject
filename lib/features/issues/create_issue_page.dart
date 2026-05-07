@@ -9,7 +9,7 @@ import '../../services/cloudinary_service.dart';
 class CreateIssuePage extends StatefulWidget {
   final Map<String, dynamic> currentUser;
 
-  CreateIssuePage({required this.currentUser});
+  const CreateIssuePage({super.key, required this.currentUser});
 
   @override
   _CreateIssuePageState createState() => _CreateIssuePageState();
@@ -164,7 +164,7 @@ class _CreateIssuePageState extends State<CreateIssuePage> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: _selectedImages.length,
-              separatorBuilder: (_, __) => SizedBox(width: 10),
+              separatorBuilder: (_, _) => SizedBox(width: 10),
               itemBuilder: (context, index) {
                 return Stack(
                   children: [
@@ -250,7 +250,7 @@ class _CreateIssuePageState extends State<CreateIssuePage> {
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.category),
               ),
-              value: _selectedCategory,
+              initialValue: _selectedCategory,
               items: _categories
                   .map((c) => DropdownMenuItem(value: c, child: Text(c)))
                   .toList(),
